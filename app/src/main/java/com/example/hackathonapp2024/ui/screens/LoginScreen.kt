@@ -95,7 +95,7 @@ fun LoginScreen(
                                 // Sprawdzanie loginu i nawigacja na odpowiedni ekran
                                 when (username) {
                                     "admin" -> {
-                                        navController.navigate(Navigation.Home.route)
+                                        navController.navigate(Navigation.AdminPanel.route)
                                     }
                                     "user" -> {
                                         navController.navigate(Navigation.Home.route)
@@ -175,7 +175,7 @@ fun LoginScreen(
                                 // Sprawdzanie loginu i nawigacja na odpowiedni ekran
                                 when (username) {
                                     "admin" -> {
-                                        navController.navigate(Navigation.Home.route)
+                                        navController.navigate(Navigation.AdminPanel.route)
                                     }
                                     "user" -> {
                                         navController.navigate(Navigation.Home.route)
@@ -255,7 +255,7 @@ fun LoginScreen(
                                 // Sprawdzanie loginu i nawigacja na odpowiedni ekran
                                 when (username) {
                                     "admin" -> {
-                                        navController.navigate(Navigation.Home.route)
+                                        navController.navigate(Navigation.AdminPanel.route)
                                     }
                                     "user" -> {
                                         navController.navigate(Navigation.Home.route)
