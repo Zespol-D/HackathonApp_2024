@@ -1,4 +1,5 @@
 package com.example.hackathonapp2024.ui.screens
+import com.example.hackathonapp2024.R
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -34,7 +35,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.hackathonapp2024.UUIDManager
 import com.example.hackathonapp2024.network.isNetworkAvailable
@@ -72,7 +75,8 @@ fun HomeScreen(
                     if (isNetworkAvailable(activity)) {
                         val startTime = System.currentTimeMillis()
                         val (rc, db) = networking(uuidString) { decodedResponse ->
-                            responseDecoded = decodedResponse // Uaktualnienie zmiennej responseDecoded
+                            responseDecoded =
+                                decodedResponse // Uaktualnienie zmiennej responseDecoded
                         }
                         rcSuccess = rc
                         dbSuccess = db
@@ -166,7 +170,7 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Pasek na dole")
+                        Text(text = stringResource(R.string.bottmom_belt))
                     }
                 }
             }
@@ -188,4 +192,3 @@ fun HomeScreen(
         }
     }
 }
-
