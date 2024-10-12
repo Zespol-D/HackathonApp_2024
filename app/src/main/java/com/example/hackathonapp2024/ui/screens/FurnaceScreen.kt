@@ -12,7 +12,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,17 +27,15 @@ import com.example.hackathonapp2024.classes.Navigation
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
 
 @Composable
-fun AdressScreenForm(
+fun FurnaceScreen(
     navController: NavHostController,
     inspectionViewModel: InspectionViewModel,
 ){
     val inspection by inspectionViewModel.inspection.collectAsState()
 
-    var miasto by remember { mutableStateOf(inspection.miasto ?: "") }
-    var ulica by remember { mutableStateOf(inspection.ulica ?: "") }
-    var nrBudynku by remember { mutableStateOf(inspection.nrBudynku ?: "") }
-    var nrLokalu by remember { mutableStateOf(inspection.nrLokalu ?: "") }
-    var typLokalu by remember { mutableStateOf(inspection.typLokalu ?: "") }
+    var obiektKontroli by remember { mutableStateOf(inspection.obiektKontroli ?: "") }
+    var typPaliwa by remember { mutableStateOf(inspection.typPaliwa ?: "") }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -54,7 +51,7 @@ fun AdressScreenForm(
                     .weight(0.05f)
                     .padding(horizontal = 10.dp)
             ) {
-                Text(text = "Miasto")
+                Text(text = "Obiekt kontroli")
             }
         }
         Spacer(
@@ -72,8 +69,8 @@ fun AdressScreenForm(
                     .padding(horizontal = 10.dp)
             ) {
                 OutlinedTextField(
-                    value = miasto,
-                    onValueChange = { miasto = it }
+                    value = obiektKontroli,
+                    onValueChange = { obiektKontroli = it }
                 )
             }
         }
@@ -86,7 +83,7 @@ fun AdressScreenForm(
                 modifier = Modifier
                     .weight(0.05f)
             ) {
-                Text(text = "Ulica")
+                Text(text = "Typ paliwa")
             }
         }
         Spacer(
@@ -103,101 +100,12 @@ fun AdressScreenForm(
                     .weight(0.1f)
             ) {
                 OutlinedTextField(
-                    value = ulica,
-                    onValueChange = { ulica = it }
+                    value = typPaliwa,
+                    onValueChange = { typPaliwa = it }
                 )
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Nr. Budynku")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = nrBudynku,
-                    onValueChange = { nrBudynku = it }
-                )
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Nr. Lokalu")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = nrLokalu,
-                    onValueChange = { nrLokalu = it }
-                )
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Typ Lokalu")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = typLokalu,
-                    onValueChange = { typLokalu = it }
-                )
-            }
-        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -205,15 +113,15 @@ fun AdressScreenForm(
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedButton(onClick = {
-                inspectionViewModel.updateAdres(
-                    miasto = miasto,
-                    ulica = ulica,
-                    nrBudynku = nrBudynku,
-                    nrLokalu = nrLokalu,
-                    typLokalu = typLokalu
-
+                inspectionViewModel.updatePiec(
+                    obiektKontroli = obiektKontroli,
+                    typPaliwa = typPaliwa
                 )
-                navController.navigate(Navigation.ControlledPersonForm.route)
+                navController.navigate(Navigation.InspectionForm.route)
+                println(inspectionViewModel.inspection.value.miasto)
+                println(inspectionViewModel.inspection.value.statutKontrolowanego)
+                println(inspectionViewModel.inspection.value.typPaliwa)
+                println(inspectionViewModel.inspection.value.obiektKontroli)
             }) {
                 Text(text = "Dalej")
             }

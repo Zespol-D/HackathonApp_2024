@@ -29,23 +29,34 @@ class MainActivity : ComponentActivity() {
                ) {
                    val inspectionViewModel = InspectionViewModel()
                    val navController = rememberNavController()
-                   NavHost(navController = navController, startDestination = Navigation.Home.route) {
+                   NavHost(navController = navController, startDestination = Navigation.AdressScreenForm.route) {
                        composable(Navigation.Home.route) {
                            HomeScreen(activity = this@MainActivity, navController = navController,
                                inspectionViewModel = inspectionViewModel
                            )
                        }
                        composable(Navigation.Login.route) {
-                           //LoginScreen(activity = this@MainActivity, navController = navController)
+                           LoginScreen(activity = this@MainActivity, navController = navController)
                        }
                        composable(Navigation.AdminPanel.route) {
-                           //AdminPanel(navController = navController)
+                           AdminPanel(navController = navController)
                        }
                        composable(Navigation.AdressScreenForm.route) {
-                           //AdressScreenForm(navController = navController)
+                           AdressScreenForm(navController = navController, inspectionViewModel = inspectionViewModel)
+                       }
+                       composable(Navigation.ControlledPersonForm.route) {
+                           ControlledPersonScreen(navController = navController, inspectionViewModel = inspectionViewModel)
+                       }
+                       composable(Navigation.ControlledPersonForm.route) {
+                           ControlledPersonScreen( navController = navController, inspectionViewModel = inspectionViewModel)
+                       }
+                       composable(Navigation.FurnaceForm.route) {
+                           FurnaceScreen(navController = navController, inspectionViewModel = inspectionViewModel)
+                       }
+                       composable(Navigation.InspectionForm.route) {
+                           InspectionResultScreen(navController = navController, inspectionViewModel = inspectionViewModel)
                        }
                    }
-
                }
             }
         }

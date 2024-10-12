@@ -8,13 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,27 +26,42 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.hackathonapp2024.classes.Navigation
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
 
 @Composable
-fun AdressScreenForm(
+fun InspectionResultScreen(
     navController: NavHostController,
     inspectionViewModel: InspectionViewModel,
 ){
     val inspection by inspectionViewModel.inspection.collectAsState()
 
-    var miasto by remember { mutableStateOf(inspection.miasto ?: "") }
-    var ulica by remember { mutableStateOf(inspection.ulica ?: "") }
-    var nrBudynku by remember { mutableStateOf(inspection.nrBudynku ?: "") }
-    var nrLokalu by remember { mutableStateOf(inspection.nrLokalu ?: "") }
-    var typLokalu by remember { mutableStateOf(inspection.typLokalu ?: "") }
+    var pobranoProbki by remember { mutableStateOf(inspection.pobranoProbki) }
+    var wynik by remember { mutableStateOf(inspection.wynik ?: "") }
+    var nrProbki by remember { mutableIntStateOf(inspection.nrProbki ?: 0) }
+    var wilgDrewna by remember { mutableStateOf(inspection.wilgDrewna ?: "") }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "Pobrano próbki z pieca")
+            Spacer(
+                modifier = Modifier
+                    .width(120.dp)
+            )
+            Checkbox(
+                checked = pobranoProbki,
+                onCheckedChange = { isChecked ->
+                    pobranoProbki = isChecked
+                }
+            )
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -54,7 +71,7 @@ fun AdressScreenForm(
                     .weight(0.05f)
                     .padding(horizontal = 10.dp)
             ) {
-                Text(text = "Miasto")
+                Text(text = "Wynik")
             }
         }
         Spacer(
@@ -72,8 +89,8 @@ fun AdressScreenForm(
                     .padding(horizontal = 10.dp)
             ) {
                 OutlinedTextField(
-                    value = miasto,
-                    onValueChange = { miasto = it }
+                    value = wynik,
+                    onValueChange = { wynik = it }
                 )
             }
         }
@@ -86,7 +103,7 @@ fun AdressScreenForm(
                 modifier = Modifier
                     .weight(0.05f)
             ) {
-                Text(text = "Ulica")
+                Text(text = "Nr. próbki")
             }
         }
         Spacer(
@@ -103,8 +120,8 @@ fun AdressScreenForm(
                     .weight(0.1f)
             ) {
                 OutlinedTextField(
-                    value = ulica,
-                    onValueChange = { ulica = it }
+                    value = nrProbki.toString(),
+                    onValueChange = { nrProbki = it.length }
                 )
             }
         }
@@ -116,7 +133,7 @@ fun AdressScreenForm(
                 modifier = Modifier
                     .weight(0.05f)
             ) {
-                Text(text = "Nr. Budynku")
+                Text(text = "Wilgotność drewna powyżej 20%")
             }
         }
         Spacer(
@@ -133,8 +150,8 @@ fun AdressScreenForm(
                     .weight(0.1f)
             ) {
                 OutlinedTextField(
-                    value = nrBudynku,
-                    onValueChange = { nrBudynku = it }
+                    value = wilgDrewna,
+                    onValueChange = { wilgDrewna = it }
                 )
             }
         }
@@ -142,62 +159,19 @@ fun AdressScreenForm(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Column(
+            Text(text = "Sankcje karne")
+            Spacer(
                 modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Nr. Lokalu")
-            }
+                .width(120.dp)
+            )
+            Checkbox(
+                checked = inspection.poArt191,
+                onCheckedChange = { isChecked ->
+                    inspectionViewModel.updatePoArt191(isChecked)
+                }
+            )
         }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = nrLokalu,
-                    onValueChange = { nrLokalu = it }
-                )
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Typ Lokalu")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = typLokalu,
-                    onValueChange = { typLokalu = it }
-                )
-            }
-        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -205,15 +179,17 @@ fun AdressScreenForm(
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedButton(onClick = {
-                inspectionViewModel.updateAdres(
-                    miasto = miasto,
-                    ulica = ulica,
-                    nrBudynku = nrBudynku,
-                    nrLokalu = nrLokalu,
-                    typLokalu = typLokalu
-
-                )
-                navController.navigate(Navigation.ControlledPersonForm.route)
+               inspectionViewModel.updateWynikiKontroli(
+                   pobranoProbki = pobranoProbki,
+                   wynik = wynik,
+                   nrProbki = nrProbki,
+                   wilgDrewna = wilgDrewna
+               )
+                println(inspectionViewModel.inspection.value.miasto)
+                println(inspectionViewModel.inspection.value.statutKontrolowanego)
+                println(inspectionViewModel.inspection.value.typPaliwa)
+                println(inspectionViewModel.inspection.value.obiektKontroli)
+                println(inspectionViewModel.inspection.value.pobranoProbki)
             }) {
                 Text(text = "Dalej")
             }

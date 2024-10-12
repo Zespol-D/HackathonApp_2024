@@ -65,6 +65,7 @@ suspend fun networking(
 
 
 
+
     val url = URL("https://hackathon.propages.pl")
 
     val result = withTimeoutOrNull(10000) {
@@ -73,6 +74,7 @@ suspend fun networking(
             setRequestProperty("Content-Type", "application/json") // Ustawienie nagłówka Content-Type
             doOutput = true
             val wr = OutputStreamWriter(outputStream)
+
             wr.write(tempJson)
             wr.flush()
 
