@@ -12,7 +12,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,17 +27,16 @@ import com.example.hackathonapp2024.classes.Navigation
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
 
 @Composable
-fun AdressScreenForm(
+fun ControlledPersonScreen(
     navController: NavHostController,
     inspectionViewModel: InspectionViewModel,
 ){
     val inspection by inspectionViewModel.inspection.collectAsState()
 
-    var miasto by remember { mutableStateOf(inspection.miasto ?: "") }
-    var ulica by remember { mutableStateOf(inspection.ulica ?: "") }
-    var nrBudynku by remember { mutableStateOf(inspection.nrBudynku ?: "") }
-    var nrLokalu by remember { mutableStateOf(inspection.nrLokalu ?: "") }
-    var typLokalu by remember { mutableStateOf(inspection.typLokalu ?: "") }
+    var statutKontrolowanego by remember { mutableStateOf(inspection.statutKontrolowanego ?: "") }
+    var imie by remember { mutableStateOf(inspection.imie ?: "") }
+    var nazwisko by remember { mutableStateOf(inspection.nazwisko ?: "") }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -54,7 +52,7 @@ fun AdressScreenForm(
                     .weight(0.05f)
                     .padding(horizontal = 10.dp)
             ) {
-                Text(text = "Miasto")
+                Text(text = "Status kontrolowanego")
             }
         }
         Spacer(
@@ -72,8 +70,8 @@ fun AdressScreenForm(
                     .padding(horizontal = 10.dp)
             ) {
                 OutlinedTextField(
-                    value = miasto,
-                    onValueChange = { miasto = it }
+                    value = statutKontrolowanego,
+                    onValueChange = { statutKontrolowanego = it }
                 )
             }
         }
@@ -86,7 +84,7 @@ fun AdressScreenForm(
                 modifier = Modifier
                     .weight(0.05f)
             ) {
-                Text(text = "Ulica")
+                Text(text = "Imię")
             }
         }
         Spacer(
@@ -103,8 +101,8 @@ fun AdressScreenForm(
                     .weight(0.1f)
             ) {
                 OutlinedTextField(
-                    value = ulica,
-                    onValueChange = { ulica = it }
+                    value = imie,
+                    onValueChange = { imie = it }
                 )
             }
         }
@@ -116,7 +114,7 @@ fun AdressScreenForm(
                 modifier = Modifier
                     .weight(0.05f)
             ) {
-                Text(text = "Nr. Budynku")
+                Text(text = "Nazwisko")
             }
         }
         Spacer(
@@ -133,71 +131,12 @@ fun AdressScreenForm(
                     .weight(0.1f)
             ) {
                 OutlinedTextField(
-                    value = nrBudynku,
-                    onValueChange = { nrBudynku = it }
+                    value = nazwisko,
+                    onValueChange = { nazwisko = it }
                 )
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Nr. Lokalu")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = nrLokalu,
-                    onValueChange = { nrLokalu = it }
-                )
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Typ Lokalu")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = typLokalu,
-                    onValueChange = { typLokalu = it }
-                )
-            }
-        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -205,15 +144,14 @@ fun AdressScreenForm(
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedButton(onClick = {
-                inspectionViewModel.updateAdres(
-                    miasto = miasto,
-                    ulica = ulica,
-                    nrBudynku = nrBudynku,
-                    nrLokalu = nrLokalu,
-                    typLokalu = typLokalu
-
+                inspectionViewModel.updateKontrolowany(
+                    statutKontrolowanego = statutKontrolowanego,
+                    imie = imie,
+                    nazwisko = nazwisko
                 )
-                navController.navigate(Navigation.ControlledPersonForm.route)
+                navController.navigate(Navigation.FurnaceForm.route)
+                println(inspectionViewModel.inspection.value.miasto)
+                println(inspectionViewModel.inspection.value.statutKontrolowanego)
             }) {
                 Text(text = "Dalej")
             }

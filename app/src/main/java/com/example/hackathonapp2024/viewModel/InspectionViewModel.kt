@@ -1,5 +1,6 @@
 package com.example.hackathonapp2024.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hackathonapp2024.data.Inspection
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +10,7 @@ import kotlinx.coroutines.flow.update
 class InspectionViewModel : ViewModel() {
 
     // Internal MutableStateFlow for the Inspection
-    private val _inspection = MutableStateFlow(Inspection())
+    private var _inspection = MutableStateFlow(Inspection())
 
     // Public immutable StateFlow
     val inspection: StateFlow<Inspection>
@@ -22,6 +23,7 @@ class InspectionViewModel : ViewModel() {
         nrLokalu: String,
         typLokalu: String
     ) {
+        Log.d("InspectionViewModel", "Updating adres with miasto: $miasto")
         _inspection.update {
             it.copy(
                 miasto = miasto,
@@ -48,6 +50,21 @@ class InspectionViewModel : ViewModel() {
             it.copy(
                 obiektKontroli = obiektKontroli,
                 typPaliwa = typPaliwa
+            )
+        }
+    }
+    fun updateWynikiKontroli(
+        pobranoProbki: Boolean,
+        wynik: String,
+        nrProbki: Int,
+        wilgDrewna: String
+    ){
+        _inspection.update {
+            it.copy(
+                pobranoProbki = pobranoProbki,
+                wynik = wynik,
+                nrProbki = nrProbki,
+                wilgDrewna = wilgDrewna
             )
         }
     }

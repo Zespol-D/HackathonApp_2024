@@ -18,9 +18,18 @@ suspend fun networking(uuidString: String, responseDecoded: (String) -> Unit): P
 
     val jsonData = Json.encodeToString(
         DataModel(
-            id = "1",
+            id = "3",
         )
     )
+    val json4 = """{
+    "id": "3",
+    "values": {
+        "Miasto" : "Warszawa",
+        "Ulica" : "Krakowska",
+        "Nr_budynku" : "5",
+        "Nr_lokalu" : 12
+    }
+}"""
     val url = URL("https://hackathon.propages.pl")
 
     val result = withTimeoutOrNull(10000) {
@@ -29,7 +38,7 @@ suspend fun networking(uuidString: String, responseDecoded: (String) -> Unit): P
             setRequestProperty("Content-Type", "application/json") // Ustawienie nagłówka Content-Type
             doOutput = true
             val wr = OutputStreamWriter(outputStream)
-            wr.write(jsonData)
+            wr.write(json4)
             wr.flush()
 
             println("URL : $url")
