@@ -1,6 +1,5 @@
 package com.example.hackathonapp2024.network
 
-import com.example.hackathonapp2024.data.DataModel
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -12,17 +11,22 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
-suspend fun networking(uuidString: String, responseDecoded: (String) -> Unit): Pair<Boolean, Boolean> {
+// Nowa funkcja loginService, która przyjmuje login i hasło
+suspend fun loginService(username: String, password: String, responseDecoded: (String) -> Unit): Pair<Boolean, Boolean> {
     var rcSuccess = false
     var dbSuccess = false
 
+    // Tworzenie JSON-a z loginem i hasłem
     val jsonData = Json.encodeToString(
-        DataModel(
-            id = "1",
+        mapOf(
+            "username" to username,
+            "password" to password
         )
     )
+
     val url = URL("https://hackathon.propages.pl")
 
+    // Wysyłanie danych do serwera
     val result = withTimeoutOrNull(10000) {
         with(url.openConnection() as HttpURLConnection) {
             requestMethod = "POST"
@@ -49,8 +53,6 @@ suspend fun networking(uuidString: String, responseDecoded: (String) -> Unit): P
                     }
                     val response = sb.toString()
 
-
-
                     // Obiekt JSON
                     val json: Map<String, JsonElement> = Json.parseToJsonElement(response).jsonObject
                     responseDecoded(json.toString())
@@ -64,10 +66,13 @@ suspend fun networking(uuidString: String, responseDecoded: (String) -> Unit): P
             }
         }
     }
+
+    // Obsługa sytuacji, w której czas oczekiwania zostanie przekroczony
     if (result == null) {
         println("Przekroczono czas oczekiwania na odpowiedź z serwera")
         rcSuccess = false
         dbSuccess = false
     }
+
     return Pair(rcSuccess, dbSuccess)
 }
