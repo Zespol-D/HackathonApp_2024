@@ -5,6 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DataModel(
-    val app: String,
     val id: String,
 )
