@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">HackathonApp 2024</string>
+    <string name="app_name">My App</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="polish">Polish</string>
+    <string name="bottmom_belt">"Bottom belt"</string>
 </resources>
