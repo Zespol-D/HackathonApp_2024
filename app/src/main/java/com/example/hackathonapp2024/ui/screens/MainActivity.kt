@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                ) {
                    val inspectionViewModel = InspectionViewModel()
                    val navController = rememberNavController()
-                   NavHost(navController = navController, startDestination = Navigation.AdressScreenForm.route) {
+                   NavHost(navController = navController, startDestination = Navigation.InspectionForm.route) {
                        composable(Navigation.Home.route) {
                            HomeScreen(activity = this@MainActivity, navController = navController,
                                inspectionViewModel = inspectionViewModel
