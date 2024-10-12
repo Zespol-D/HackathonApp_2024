@@ -24,12 +24,18 @@ class MainActivity : ComponentActivity() {
                    color = MaterialTheme.colorScheme.background
                ) {
                    val navController = rememberNavController()
-                   NavHost(navController = navController, startDestination = Navigation.Login.route) {
+                   NavHost(navController = navController, startDestination = Navigation.Home.route) {
                        composable(Navigation.Home.route) {
-                           //HomeScreen(activity = this@MainActivity, navController = navController)
+                           HomeScreen(activity = this@MainActivity, navController = navController)
                        }
                        composable(Navigation.Login.route) {
-                           LoginScreen(activity = this@MainActivity, navController = navController)
+                           //LoginScreen(activity = this@MainActivity, navController = navController)
+                       }
+                       composable(Navigation.AdminPanel.route) {
+                           //AdminPanel(navController = navController)
+                       }
+                       composable(Navigation.AdressScreenForm.route) {
+                           //AdressScreenForm(navController = navController)
                        }
                    }
 
