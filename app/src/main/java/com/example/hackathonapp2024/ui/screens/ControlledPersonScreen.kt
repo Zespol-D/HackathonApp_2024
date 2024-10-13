@@ -1,6 +1,7 @@
 package com.example.hackathonapp2024.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,127 +37,131 @@ fun ControlledPersonScreen(
     var statutKontrolowanego by remember { mutableStateOf(inspection.statutKontrolowanego ?: "") }
     var imie by remember { mutableStateOf(inspection.imie ?: "") }
     var nazwisko by remember { mutableStateOf(inspection.nazwisko ?: "") }
+    BoxWithConstraints {
+        if (maxWidth < 600.dp) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.05f)
+                            .padding(horizontal = 10.dp)
+                    ) {
+                        Text(text = "Statut kontrolowanego")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                            .padding(horizontal = 10.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = statutKontrolowanego,
+                            onValueChange = { statutKontrolowanego = it }
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.05f)
+                    ) {
+                        Text(text = "Imię")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                    ) {
+                        OutlinedTextField(
+                            value = imie,
+                            onValueChange = { imie = it }
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.05f)
+                    ) {
+                        Text(text = "Nazwisko")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                    ) {
+                        OutlinedTextField(
+                            value = nazwisko,
+                            onValueChange = { nazwisko = it }
+                        )
+                    }
+                }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-                    .padding(horizontal = 10.dp)
-            ) {
-                Text(text = "Status kontrolowanego")
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OutlinedButton(onClick = {
+                        inspectionViewModel.updateKontrolowany(
+                            statutKontrolowanego = statutKontrolowanego,
+                            imie = imie,
+                            nazwisko = nazwisko
+                        )
+                        navController.navigate(Navigation.FurnaceForm.route)
+                        println(inspectionViewModel.inspection.value.miasto)
+                        println(inspectionViewModel.inspection.value.statutKontrolowanego)
+                    }) {
+                        Text(text = "Dalej")
+                    }
+                }
             }
         }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-                    .padding(horizontal = 10.dp)
-            ) {
-                OutlinedTextField(
-                    value = statutKontrolowanego,
-                    onValueChange = { statutKontrolowanego = it }
-                )
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Imię")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = imie,
-                    onValueChange = { imie = it }
-                )
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.05f)
-            ) {
-                Text(text = "Nazwisko")
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(10.dp)
-                .fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                OutlinedTextField(
-                    value = nazwisko,
-                    onValueChange = { nazwisko = it }
-                )
-            }
-        }
+        else if(maxWidth > 600.dp){
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            OutlinedButton(onClick = {
-                inspectionViewModel.updateKontrolowany(
-                    statutKontrolowanego = statutKontrolowanego,
-                    imie = imie,
-                    nazwisko = nazwisko
-                )
-                navController.navigate(Navigation.FurnaceForm.route)
-                println(inspectionViewModel.inspection.value.miasto)
-                println(inspectionViewModel.inspection.value.statutKontrolowanego)
-            }) {
-                Text(text = "Dalej")
-            }
         }
-
     }
-
 }
