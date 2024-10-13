@@ -123,7 +123,7 @@ fun LoginScreen(
                                     navController.navigate(Navigation.AdminPanel.route)
                                 }
                                 "user" -> {
-                                    navController.navigate(Navigation.Home.route)
+                                    navController.navigate(Navigation.RequestEditForm.route)
                                 }
                                 else -> {
                                     loginResult.value = "Dane są niepoprawne"
@@ -217,7 +217,7 @@ fun LoginScreen(
                                     navController.navigate(Navigation.AdminPanel.route)
                                 }
                                 "user" -> {
-                                    navController.navigate(Navigation.Home.route)
+                                    navController.navigate(Navigation.RequestEditForm.route)
                                 }
                                 else -> {
                                     loginResult.value = "Dane są niepoprawne"
@@ -311,7 +311,7 @@ fun LoginScreen(
                                     navController.navigate(Navigation.AdminPanel.route)
                                 }
                                 "user" -> {
-                                    navController.navigate(Navigation.Home.route)
+                                    navController.navigate(Navigation.RequestEditForm.route)
                                 }
                                 else -> {
                                     loginResult.value = "Błędny login"

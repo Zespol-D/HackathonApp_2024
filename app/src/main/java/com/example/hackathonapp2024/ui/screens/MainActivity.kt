@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                    val requestInspectionViewModel = RequestInspectionViewModel()
                    val navController = rememberNavController()
 
-                   NavHost(navController = navController, startDestination = Navigation.Home.route) {
+                   NavHost(navController = navController, startDestination = Navigation.Login.route) {
                        composable(Navigation.Home.route) {
                            HomeScreen(activity = this@MainActivity, navController = navController,
                                inspectionViewModel = inspectionViewModel, requestInspectionViewModel = requestInspectionViewModel
@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
                            InspectionResultScreen(navController = navController, inspectionViewModel = inspectionViewModel)
                        }
                        composable(Navigation.RequestEditForm.route) {
-                           RequestEditForm(navController = navController, requestInspectionViewModel)
+                           RequestEditForm(navController = navController, inspectionRequestEditJson = requestInspectionViewModel)
                        }
                    }
                }
