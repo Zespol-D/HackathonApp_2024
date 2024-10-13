@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hackathonapp2024.classes.Navigation
 import com.example.hackathonapp2024.ui.theme.HackathonApp2024Theme
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
+import com.example.hackathonapp2024.viewModel.RequestInspectionViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,11 +29,12 @@ class MainActivity : ComponentActivity() {
                    color = MaterialTheme.colorScheme.background
                ) {
                    val inspectionViewModel = InspectionViewModel()
+                   val requestInspectionViewModel = RequestInspectionViewModel()
                    val navController = rememberNavController()
-                   NavHost(navController = navController, startDestination = Navigation.InspectionForm.route) {
+                   NavHost(navController = navController, startDestination = Navigation.Home.route) {
                        composable(Navigation.Home.route) {
                            HomeScreen(activity = this@MainActivity, navController = navController,
-                               inspectionViewModel = inspectionViewModel
+                               inspectionViewModel = inspectionViewModel, requestInspectionViewModel = requestInspectionViewModel
                            )
                        }
                        composable(Navigation.Login.route) {

@@ -5,12 +5,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hackathonapp2024.data.DataModel
 import com.example.hackathonapp2024.data.Inspection
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
+import com.example.hackathonapp2024.viewModel.RequestInspectionViewModel
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 import mapInspectionToJson
+import mapRequestInspectionToEditJson
+import mapRequestInspectionToJson
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
@@ -19,6 +22,7 @@ import java.net.URL
 
 suspend fun networking(
     inspectionsViewModel: InspectionViewModel,
+    requestInspectionViewModel: RequestInspectionViewModel,
     uuidString: String,
     responseDecoded: (String) -> Unit
 ): Pair<Boolean, Boolean> {
@@ -63,7 +67,11 @@ suspend fun networking(
     var tempJson : String = Json.encodeToString(mapInspectionToJson(inspectionsViewModel.inspection.value))
     Log.d("JSON", tempJson)
 
-
+    var temp2Json : String = Json.encodeToString(mapRequestInspectionToJson(requestInspectionViewModel.inspection.value))
+    Log.d("JSON", temp2Json)
+    requestInspectionViewModel.inspection.value.powierzchnia = 213.7f
+    var temp3Json : String = Json.encodeToString(mapRequestInspectionToEditJson(requestInspection = requestInspectionViewModel.inspection.value))
+    Log.d("JSON", temp3Json)
 
 
     val url = URL("https://hackathon.propages.pl")
@@ -75,7 +83,7 @@ suspend fun networking(
             doOutput = true
             val wr = OutputStreamWriter(outputStream)
 
-            wr.write(tempJson)
+            wr.write(temp3Json)
             wr.flush()
 
             println("URL : $url")

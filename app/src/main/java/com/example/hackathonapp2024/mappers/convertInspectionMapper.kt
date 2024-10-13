@@ -1,5 +1,10 @@
 import com.example.hackathonapp2024.data.Inspection
 import com.example.hackathonapp2024.data.InspectionJson
+import com.example.hackathonapp2024.data.InspectionRequestEditJson
+import com.example.hackathonapp2024.data.InspectionRequestJson
+import com.example.hackathonapp2024.data.RequestInspection
+import com.example.hackathonapp2024.data.RequestValues
+import com.example.hackathonapp2024.data.RequestValuesEdit
 import com.example.hackathonapp2024.data.Values
 
 fun mapInspectionToJson(inspection: Inspection): InspectionJson {
@@ -33,3 +38,44 @@ fun mapInspectionToJson(inspection: Inspection): InspectionJson {
         )
     )
 }
+
+fun mapRequestInspectionToJson(requestInspection: RequestInspection): InspectionRequestJson {
+    return InspectionRequestJson(
+        id = "4",
+        values = RequestValues(
+            Miasto = requestInspection.miasto ?: "n",
+            Ulica = requestInspection.ulica ?: "n",
+            Nr_budynku = requestInspection.nrBudynku ?: "n",
+            Nr_lokalu = requestInspection.nrLokalu ?: 0,
+            Imie = requestInspection.imie ?: "n",
+            Nazwisko = requestInspection.nazwisko ?: "n",
+            Powierzchnia = requestInspection.powierzchnia ?: 0.0f,
+            Typ_lokalu = requestInspection.typLokalu ?: "n",
+            Piec = requestInspection.piec ?: "n",
+            Rok_pieca = requestInspection.rokPieca ?: 0,
+            Typ_paliwa = requestInspection.typPaliwa ?: "n",
+            Ilosc_paliwa = requestInspection.iloscPaliwa ?: 0.0f,
+            Czy_uzysk_dot = requestInspection.czyUzyskDot ?: 0
+        )
+    )
+}
+
+fun mapRequestInspectionToEditJson(requestInspection: RequestInspection): InspectionRequestEditJson {
+    return InspectionRequestEditJson(
+        id = "5",
+        values = RequestValuesEdit(
+            Powierzchnia = requestInspection.powierzchnia?.toString() ?: "0.0",
+            Typ_lokalu = requestInspection.typLokalu ?: "n",
+            Piec = requestInspection.piec ?: "n",
+            Rok_pieca = requestInspection.rokPieca ?: 0,
+            Ilosc_paliwa = requestInspection.iloscPaliwa?.toFloat() ?: 0.0f,
+            Czy_uzysk_dot = requestInspection.czyUzyskDot ?: 0,
+            Miasto = requestInspection.miasto ?: "n",
+            Ulica = requestInspection.ulica ?: "n",
+            Nr_budynku = requestInspection.nrBudynku ?: "n",
+            Nr_lokalu = requestInspection.nrLokalu ?: 0
+        )
+    )
+}
+
+
