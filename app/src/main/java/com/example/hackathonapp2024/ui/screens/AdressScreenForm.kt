@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -43,6 +49,10 @@ fun AdressScreenForm(
     var nrLokalu by remember { mutableStateOf(inspection.nrLokalu ?: "") }
     var typLokalu by remember { mutableStateOf(inspection.typLokalu ?: "") }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+    fun hideKeyboard(){
+        keyboardController?.hide()
+    }
     BoxWithConstraints {
         if (maxWidth < 600.dp) {
             Column(
@@ -60,7 +70,6 @@ fun AdressScreenForm(
                 ) {
                     Text(text = "Adres", fontSize = 34.sp)
                 }
-                // Pole Miasto
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -94,7 +103,14 @@ fun AdressScreenForm(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = miasto,
-                            onValueChange = { miasto = it }
+                            onValueChange = { miasto = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -170,7 +186,14 @@ fun AdressScreenForm(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = nrBudynku,
-                            onValueChange = { nrBudynku = it }
+                            onValueChange = { nrBudynku = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -208,7 +231,14 @@ fun AdressScreenForm(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = nrLokalu,
-                            onValueChange = { nrLokalu = it }
+                            onValueChange = { nrLokalu = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -246,7 +276,14 @@ fun AdressScreenForm(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = typLokalu,
-                            onValueChange = { typLokalu = it }
+                            onValueChange = { typLokalu = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -275,6 +312,246 @@ fun AdressScreenForm(
                 }
             }
         }
-        // Obsługa większych ekranów (tutaj podobna logika)
+        else if (maxWidth > 600.dp) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 15.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = "Adres", fontSize = 34.sp)
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.05f)
+                            .padding(horizontal = 25.dp)
+                            .padding(top = 15.dp)
+                    ) {
+                        Text(text = "Miasto")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                            .padding(horizontal = 25.dp)
+                            .fillMaxWidth()
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            value = miasto,
+                            onValueChange = { miasto = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.05f)
+                            .padding(horizontal = 25.dp)
+                            .padding(top = 14.dp)
+                    ) {
+                        Text(text = "Ulica")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                            .padding(horizontal = 25.dp)
+                            .fillMaxWidth()
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            value = ulica,
+                            onValueChange = { ulica = it }
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.05f)
+                            .padding(horizontal = 25.dp)
+                            .padding(top = 14.dp)
+                    ) {
+                        Text(text = "Nr. Budynku")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                            .padding(horizontal = 25.dp)
+                            .fillMaxWidth()
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            value = nrBudynku,
+                            onValueChange = { nrBudynku = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.05f)
+                            .padding(horizontal = 25.dp)
+                            .padding(top = 14.dp)
+                    ) {
+                        Text(text = "Nr. Lokalu")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                            .padding(horizontal = 25.dp)
+                            .fillMaxWidth()
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            value = nrLokalu,
+                            onValueChange = { nrLokalu = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.05f)
+                            .padding(horizontal = 25.dp)
+                            .padding(top = 14.dp)
+                    ) {
+                        Text(text = "Typ Lokalu")
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                        .fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.1f)
+                            .padding(horizontal = 25.dp)
+                            .fillMaxWidth()
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            value = typLokalu,
+                            onValueChange = { typLokalu = it }
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 18.dp)
+                        .padding(end = 25.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Button(onClick = {
+                        inspectionViewModel.updateAdres(
+                            miasto = miasto,
+                            ulica = ulica,
+                            nrBudynku = nrBudynku,
+                            nrLokalu = nrLokalu,
+                            typLokalu = typLokalu
+                        )
+                        navController.navigate(Navigation.ControlledPersonForm.route)
+                    }) {
+                        Text(text = "Dalej")
+                    }
+                }
+            }
+        }
     }
 }
