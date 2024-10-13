@@ -183,6 +183,7 @@ fun ControlledPersonScreen(
                             imie = imie,
                             nazwisko = nazwisko
                         )
+                        navController.navigate(Navigation.FurnaceForm.route)
                     }
                     ) {
                         Text(text = "Dalej")
@@ -332,6 +333,7 @@ fun ControlledPersonScreen(
                             imie = imie,
                             nazwisko = nazwisko
                         )
+                        navController.navigate(Navigation.FurnaceForm.route)
                     }
                     ) {
                         Text(text = "Dalej")

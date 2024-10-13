@@ -144,6 +144,7 @@ fun FurnaceScreen(
                             obiektKontroli = obiektKontroli,
                             typPaliwa = typPaliwa
                         )
+                        navController.navigate(Navigation.InspectionForm.route)
                     }) {
                         Text(text = "Dalej")
                     }
@@ -254,6 +255,7 @@ fun FurnaceScreen(
                             obiektKontroli = obiektKontroli,
                             typPaliwa = typPaliwa
                         )
+                        navController.navigate(Navigation.InspectionForm.route)
                     }) {
                         Text(text = "Dalej")
                     }
