@@ -59,6 +59,9 @@ class MainActivity : ComponentActivity() {
                        composable(Navigation.InspectionForm.route) {
                            InspectionResultScreen(navController = navController, inspectionViewModel = inspectionViewModel)
                        }
+                       composable(Navigation.RequestEditForm.route) {
+                           RequestEditForm(navController = navController, inspectionRequestEditJson = requestInspectionViewModel)
+                       }
                    }
                }
             }
