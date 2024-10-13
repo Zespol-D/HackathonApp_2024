@@ -43,6 +43,7 @@ import com.example.hackathonapp2024.UUIDManager
 import com.example.hackathonapp2024.network.isNetworkAvailable
 import com.example.hackathonapp2024.network.networking
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
+import com.example.hackathonapp2024.viewModel.RequestInspectionViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -50,7 +51,8 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navController: NavHostController,
     activity: ComponentActivity,
-    inspectionViewModel: InspectionViewModel
+    inspectionViewModel: InspectionViewModel,
+    requestInspectionViewModel: RequestInspectionViewModel
 ) {
     var responseDecoded by remember { mutableStateOf("") }
     var elapsedTime by remember { mutableLongStateOf(0L) }
@@ -76,7 +78,7 @@ fun HomeScreen(
                 scope.launch(Dispatchers.IO) {
                     if (isNetworkAvailable(activity)) {
                         val startTime = System.currentTimeMillis()
-                        val (rc, db) = networking(inspectionViewModel, uuidString) { decodedResponse ->
+                        val (rc, db) = networking(inspectionViewModel, requestInspectionViewModel, uuidString) { decodedResponse ->
                             responseDecoded =
                                 decodedResponse // Uaktualnienie zmiennej responseDecoded
                         }
