@@ -108,6 +108,11 @@ fun InspectionResultScreen(
                             checked = pobranoProbki,
                             onCheckedChange = { isChecked ->
                                 pobranoProbki = isChecked
+                                if (!isChecked) {
+                                    wynik = "brak"
+                                    nrProbki = 0
+                                    wilgDrewna = "brak"
+                                }
                             }
                         )
                     }
@@ -147,6 +152,7 @@ fun InspectionResultScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = wynik,
+                            enabled = pobranoProbki,
                             onValueChange = { wynik = it },
                             singleLine = true,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
@@ -193,6 +199,7 @@ fun InspectionResultScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = nrProbki.toString(),
+                            enabled = pobranoProbki,
                             onValueChange = { nrProbki = it.toIntOrNull() ?: 0 },
                             singleLine = true,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
@@ -239,6 +246,7 @@ fun InspectionResultScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = wilgDrewna,
+                            enabled = pobranoProbki,
                             onValueChange = { wilgDrewna = it },
                             singleLine = true,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
