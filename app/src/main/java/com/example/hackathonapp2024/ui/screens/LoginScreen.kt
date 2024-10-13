@@ -120,7 +120,7 @@ fun LoginScreen(
                             // Sprawdzanie loginu i nawigacja na odpowiedni ekran
                             when (username) {
                                 "admin" -> {
-                                    navController.navigate(Navigation.AdminPanel.route)
+                                    navController.navigate(Navigation.Home.route)
                                 }
                                 "user" -> {
                                     navController.navigate(Navigation.RequestEditForm.route)

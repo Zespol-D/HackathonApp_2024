@@ -57,7 +57,8 @@ fun mapRequestInspectionToJson(requestInspection: RequestInspection): Inspection
             Rok_pieca = requestInspection.rokPieca ?: 0,
             Typ_paliwa = requestInspection.typPaliwa ?: "n",
             Ilosc_paliwa = requestInspection.iloscPaliwa ?: 0.0f,
-            Czy_uzysk_dot = requestInspection.czyUzyskDot ?: 0
+            Czy_uzysk_dot = requestInspection.czyUzyskDot ?: 0,
+            Is_done = requestInspection.isDone ?: 1
         )
     )
 }

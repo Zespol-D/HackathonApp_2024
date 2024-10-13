@@ -1,5 +1,6 @@
 package com.example.hackathonapp2024.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -31,12 +32,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.hackathonapp2024.network.NetworkingButton
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
+import com.example.hackathonapp2024.viewModel.RequestInspectionViewModel
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import mapInspectionToJson
 
 @Composable
 fun InspectionResultScreen(
     navController: NavHostController,
     inspectionViewModel: InspectionViewModel,
+    requestInspectionViewModel: RequestInspectionViewModel
 ) {
     val inspection by inspectionViewModel.inspection.collectAsState()
 
@@ -636,7 +643,10 @@ fun InspectionResultScreen(
                         println(inspectionViewModel.inspection.value.czynArt334)
                         println(inspectionViewModel.inspection.value.manArt334Liczba)
                     }) {
-                        Text(text = "Dalej")
+                        Text(text = "Wyślij")
+                        var tempJson : String = Json.encodeToString(mapInspectionToJson(inspection))
+                        Log.d("JSON", tempJson)
+                        NetworkingButton(inspectionViewModel, requestInspectionViewModel, tempJson)
                     }
                 }
             }

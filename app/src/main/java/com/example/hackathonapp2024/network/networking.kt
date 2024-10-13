@@ -24,6 +24,7 @@ suspend fun networking(
     inspectionsViewModel: InspectionViewModel,
     requestInspectionViewModel: RequestInspectionViewModel,
     uuidString: String,
+    json: String,
     responseDecoded: (String) -> Unit
 ): Pair<Boolean, Boolean> {
     var rcSuccess = false
@@ -31,31 +32,16 @@ suspend fun networking(
 
     var tempJson : String = Json.encodeToString(mapInspectionToJson(inspectionsViewModel.inspection.value))
     Log.d("JSON", tempJson)
-
-    var temp2Json : String = Json.encodeToString(mapRequestInspectionToJson(requestInspectionViewModel.inspection.value))
-    Log.d("JSON", temp2Json)
-
-    var temp3Json : String = Json.encodeToString(mapRequestInspectionToEditJson(requestInspection = requestInspectionViewModel.inspection.value))
-    Log.d("JSON", temp3Json)
-    //var adres = Adres("Warszawka", "Knagi", "69", 1)
-    var temp4json = """{"id": "1"}"""
-    var dataModel = DataModel(
-        id = "1"
-    )
-    var temp4json2 : String = Json.encodeToString(dataModel)
-    Log.d("JSON", temp2Json)
-
-
     val url = URL("https://hackathon.propages.pl")
 
-    val result = withTimeoutOrNull(10000) {
+    val result = withTimeoutOrNull(60000) {
         with(url.openConnection() as HttpURLConnection) {
             requestMethod = "POST"
             setRequestProperty("Content-Type", "application/json") // Ustawienie nagłówka Content-Type
             doOutput = true
             val wr = OutputStreamWriter(outputStream)
 
-            wr.write(temp4json2)
+            wr.write(json)
             wr.flush()
 
             println("URL : $url")

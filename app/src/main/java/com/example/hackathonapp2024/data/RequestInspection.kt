@@ -17,6 +17,7 @@ data class RequestInspection(
     var typPaliwa: String? = null,
     var iloscPaliwa: Float? = 0.0f,
     var czyUzyskDot: Int? = 0,
+    var isDone: Int? = 0
 )
 
 @Serializable
@@ -39,7 +40,8 @@ data class RequestValues(
     var Rok_pieca: Int,
     var Typ_paliwa: String,
     var Ilosc_paliwa: Float,
-    var Czy_uzysk_dot: Int
+    var Czy_uzysk_dot: Int,
+    var Is_done: Int
 )
 
 @Serializable

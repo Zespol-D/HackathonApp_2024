@@ -1,5 +1,6 @@
 package com.example.hackathonapp2024.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,13 +30,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.hackathonapp2024.classes.Navigation
+import com.example.hackathonapp2024.network.NetworkingButton
+import com.example.hackathonapp2024.viewModel.InspectionViewModel
 import com.example.hackathonapp2024.viewModel.RequestInspectionViewModel
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import mapRequestInspectionToJson
 
 @Composable
 fun RequestEditForm(
     navController: NavHostController,
-    inspectionRequestEditJson: RequestInspectionViewModel
-){
+    inspectionRequestEditJson: RequestInspectionViewModel,
+    inspectionViewModel: InspectionViewModel,
+    requestInspectionViewModel: RequestInspectionViewModel
+) {
     val inspectionRequest by inspectionRequestEditJson.inspection.collectAsState()
 
     var powierzchnia by remember { mutableStateOf(inspectionRequest.powierzchnia ?: 0.0f) }
@@ -48,11 +56,17 @@ fun RequestEditForm(
 
     val scrollState = rememberScrollState()
 
+    // Function to check if the input is a valid float
+    fun isValidFloat(value: String): Boolean {
+        // Regular expression to match a valid float number
+        return value.matches(Regex("^-?\\d*\\.?\\d*\$"))
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState),
-    verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(
@@ -100,12 +114,21 @@ fun RequestEditForm(
                     .padding(horizontal = 15.dp)
             ) {
                 OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = powierzchnia.toString(),
-                    onValueChange = { powierzchnia = it.toFloat() },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    modifier = Modifier.fillMaxWidth(),
+                    value = inspectionRequest.powierzchnia.toString(),
+                    onValueChange = { newValue ->
+                        // Validate the input
+                        if (isValidFloat(newValue)) {
+                            powierzchnia = newValue.toFloat()
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                 )
+
+
             }
         }
         Spacer(
@@ -140,7 +163,8 @@ fun RequestEditForm(
                     .weight(0.1f)
                     .fillMaxWidth()
             ) {
-                typLokalu?.let {
+
+                inspectionRequest.typLokalu?.let {
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -148,6 +172,7 @@ fun RequestEditForm(
                         onValueChange = { typLokalu = it }
                     )
                 }
+
             }
         }
         Spacer(
@@ -186,8 +211,8 @@ fun RequestEditForm(
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        value = it,
-                        onValueChange = { piec = it }
+                        value = inspectionRequest.piec.toString(),
+                        onValueChange = { inspectionRequest.piec = it }
                     )
                 }
             }
@@ -226,9 +251,12 @@ fun RequestEditForm(
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = rokPieca.toString(),
-                    onValueChange = { rokPieca = it.toInt() },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    value = inspectionRequest.rokPieca.toString(),
+                    onValueChange = { inspectionRequest.rokPieca = it.toInt() },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                 )
             }
         }
@@ -268,9 +296,12 @@ fun RequestEditForm(
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        value = it,
-                        onValueChange = { typPaliwa = it },
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                        value = inspectionRequest.typPaliwa.toString(),
+                        onValueChange = { inspectionRequest.typPaliwa = it },
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        ),
                     )
                 }
             }
@@ -309,9 +340,12 @@ fun RequestEditForm(
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = iloscPaliwa.toString(),
-                    onValueChange = { iloscPaliwa = it.toFloat() },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    value = inspectionRequest.iloscPaliwa.toString(),
+                    onValueChange = { inspectionRequest.iloscPaliwa = it.toFloat() },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                 )
             }
         }
@@ -349,10 +383,14 @@ fun RequestEditForm(
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = czyUzyskDot.toString(),
+                    value = inspectionRequest.czyUzyskDot.toString(),
                     onValueChange = {
-                        czyUzyskDot = it.toInt() },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                        inspectionRequest.czyUzyskDot = it.toInt()
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                 )
             }
         }
@@ -368,28 +406,35 @@ fun RequestEditForm(
                     .padding(end = 15.dp)
                     .padding(top = 15.dp),
                 onClick = {
-                val rokPiecaInt = rokPieca.toInt() ?: 0 // Zastosuj domyślną wartość 0 w razie błędu
-                val czyUzyskDotInt = czyUzyskDot.toInt() ?: 0 // Zastosuj domyślną wartość 0 w razie błędu
-                inspectionRequestEditJson.updateForEdit(
-                    powierzchnia = powierzchnia,
-                    typLokalu = typLokalu,
-                    piec = piec,
-                    rokPieca = rokPiecaInt,
-                    typPaliwa = typPaliwa,
-                    iloscPaliwa = iloscPaliwa,
-                    czyUzyskDot = czyUzyskDotInt
-                )
-                navController.navigate(Navigation.InspectionForm.route)
-                println(inspectionRequestEditJson.inspection.value.typLokalu)
-                println(inspectionRequestEditJson.inspection.value.rokPieca)
-                println(inspectionRequestEditJson.inspection.value.powierzchnia)
-                println(inspectionRequestEditJson.inspection.value.typPaliwa)
-                println(inspectionRequestEditJson.inspection.value.piec)
-                println(inspectionRequestEditJson.inspection.value.iloscPaliwa)
-                println(inspectionRequestEditJson.inspection.value.czyUzyskDot)
-            }) {
-                Text(text = "Dalej")
+                    val rokPiecaInt =
+                        rokPieca.toInt() ?: 0 // Zastosuj domyślną wartość 0 w razie błędu
+                    val czyUzyskDotInt =
+                        czyUzyskDot.toInt() ?: 0 // Zastosuj domyślną wartość 0 w razie błędu
+                    inspectionRequestEditJson.updateForEdit(
+                        powierzchnia = powierzchnia,
+                        typLokalu = typLokalu,
+                        piec = piec,
+                        rokPieca = rokPiecaInt,
+                        typPaliwa = typPaliwa,
+                        iloscPaliwa = iloscPaliwa,
+                        czyUzyskDot = czyUzyskDotInt
+                    )
+                    navController.navigate(Navigation.InspectionForm.route)
+                    println(inspectionRequestEditJson.inspection.value.typLokalu)
+                    println(inspectionRequestEditJson.inspection.value.rokPieca)
+                    println(inspectionRequestEditJson.inspection.value.powierzchnia)
+                    println(inspectionRequestEditJson.inspection.value.typPaliwa)
+                    println(inspectionRequestEditJson.inspection.value.piec)
+                    println(inspectionRequestEditJson.inspection.value.iloscPaliwa)
+                    println(inspectionRequestEditJson.inspection.value.czyUzyskDot)
+                }) {
             }
+
+            Text(text = "Wyślij")
+            var tempJson: String =
+                Json.encodeToString(mapRequestInspectionToJson(inspectionRequest))
+            Log.d("JSON", tempJson)
+            NetworkingButton(inspectionViewModel, requestInspectionViewModel, tempJson)
         }
     }
 }

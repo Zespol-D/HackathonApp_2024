@@ -38,15 +38,7 @@ fun AdminPanel(
                     modifier = Modifier
                         .height(18.dp)
                 )
-                Button(
-                    modifier = Modifier
-                        .width(190.dp),
-                    onClick = {
-                        navController.navigate(Navigation.AdressScreenForm.route)
-                    }
-                ) {
-                    Text(text = "Przeprowadź kontrolę")
-                }
+
 
             }
         }

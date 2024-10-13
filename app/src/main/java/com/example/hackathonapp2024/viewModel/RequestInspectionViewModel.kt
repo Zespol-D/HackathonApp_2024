@@ -1,12 +1,10 @@
 package com.example.hackathonapp2024.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.example.hackathonapp2024.data.Inspection
 import com.example.hackathonapp2024.data.RequestInspection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.updateAndGet
 
 class RequestInspectionViewModel : ViewModel() {
 
