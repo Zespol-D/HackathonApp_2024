@@ -53,21 +53,6 @@ class InspectionViewModel : ViewModel() {
             )
         }
     }
-    fun updateWynikiKontroli(
-        pobranoProbki: Boolean,
-        wynik: String,
-        nrProbki: Int,
-        wilgDrewna: String
-    ){
-        _inspection.update {
-            it.copy(
-                pobranoProbki = pobranoProbki,
-                wynik = wynik,
-                nrProbki = nrProbki,
-                wilgDrewna = wilgDrewna
-            )
-        }
-    }
 
     fun updateWynikiKontroli(
         pobranoProbki: Boolean,
