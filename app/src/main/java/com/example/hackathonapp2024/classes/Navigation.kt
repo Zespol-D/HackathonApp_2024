@@ -8,7 +8,8 @@ enum class Navigation(val route: String) {
     ControlledPersonForm ("controlled_person_form"),
     FurnaceForm ("furnace_form"),
     InspectionForm ("inspection_form"),
-    TerminForm ("termin_form")
+    TerminForm ("termin_form"),
+    RequestEditForm("request_edit_form")
 
 
 }

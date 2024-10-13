@@ -35,17 +35,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.hackathonapp2024.UUIDManager
+import com.example.hackathonapp2024.data.Adres
+import com.example.hackathonapp2024.data.ResponseAdresy
 import com.example.hackathonapp2024.network.isNetworkAvailable
 import com.example.hackathonapp2024.network.networking
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
 import com.example.hackathonapp2024.viewModel.RequestInspectionViewModel
+import com.google.android.gms.common.api.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun HomeScreen(
@@ -59,7 +65,8 @@ fun HomeScreen(
     var networkError by remember { mutableStateOf(false) }
     var rcSuccess by remember { mutableStateOf(false) }
     var dbSuccess by remember { mutableStateOf(false) }
-
+    var classType by remember { mutableStateOf(Adres()) }
+    var objectClass by remember { mutableStateOf<ResponseAdresy?>(null) }
     val uuidString = UUIDManager.getUUID()
 
     // Snackbar
@@ -82,6 +89,7 @@ fun HomeScreen(
                             responseDecoded =
                                 decodedResponse // Uaktualnienie zmiennej responseDecoded
                         }
+                        objectClass = Json.decodeFromString<ResponseAdresy>(responseDecoded)
                         rcSuccess = rc
                         dbSuccess = db
 
@@ -139,7 +147,18 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = responseDecoded)
+                Text("Response decoded: ")
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+                objectClass?.data?.forEach{ adres: Adres ->
+                    adres.Miasto?.let { Text(it) }
+                }
             }
 
 

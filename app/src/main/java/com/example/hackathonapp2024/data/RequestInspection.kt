@@ -7,13 +7,13 @@ data class RequestInspection(
     var miasto: String? = null,
     var ulica: String? = null,
     var nrBudynku: String? = null,
-    var nrLokalu: Int? = null,
+    var nrLokalu: Int? = 0,
     var imie: String? = null,
     var nazwisko: String? = null,
     var powierzchnia: Float? = 0.0f,
     var typLokalu: String? = null,
     var piec: String? = null,
-    var rokPieca: Int? = null,
+    var rokPieca: Int? = 0,
     var typPaliwa: String? = null,
     var iloscPaliwa: Float? = 0.0f,
     var czyUzyskDot: Int? = 0,
@@ -61,4 +61,11 @@ data class RequestValuesEdit(
     var Nr_budynku: String,
     var Nr_lokalu: Int
 
+)
+
+@Serializable
+data class ResponseAdresy(
+    val rcSuccess: Boolean? = null,
+    val dbSuccess: Boolean?= null,
+    val data: List<Adres>?= null
 )

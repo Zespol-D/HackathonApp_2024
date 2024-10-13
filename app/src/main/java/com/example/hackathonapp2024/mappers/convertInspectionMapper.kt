@@ -1,3 +1,5 @@
+import com.example.hackathonapp2024.data.Adres
+import com.example.hackathonapp2024.data.AdresJson
 import com.example.hackathonapp2024.data.Inspection
 import com.example.hackathonapp2024.data.InspectionJson
 import com.example.hackathonapp2024.data.InspectionRequestEditJson
@@ -26,7 +28,7 @@ fun mapInspectionToJson(inspection: Inspection): InspectionJson {
             Wynik = inspection.wynik ?: "n",
             Nr_probki = inspection.nrProbki?.toString() ?: "n",
             Wilg_drewna = inspection.wilgDrewna?.toIntOrNull(),
-            Liczba_kontroli = inspection.liczbaKontroli,
+            Liczba_kontroli = inspection.liczbaKontroli ?: 0,
             Po_Art191 = if (inspection.poArt191) 1 else 0,
             Po_Art334 = if (inspection.poArt334) 1 else 0,
             Man_Art191_liczba = inspection.manArt191Liczba,
@@ -74,6 +76,18 @@ fun mapRequestInspectionToEditJson(requestInspection: RequestInspection): Inspec
             Ulica = requestInspection.ulica ?: "n",
             Nr_budynku = requestInspection.nrBudynku ?: "n",
             Nr_lokalu = requestInspection.nrLokalu ?: 0
+        )
+    )
+}
+
+fun mapAdresRequestToJson(adres: Adres): AdresJson{
+    return AdresJson(
+        id = "1",
+        values = Adres(
+            Miasto = adres.Miasto,
+            Ulica = adres.Ulica,
+            Nr_budynku = adres.Nr_budynku,
+            Nr_lokalu = adres.Nr_lokalu
         )
     )
 }

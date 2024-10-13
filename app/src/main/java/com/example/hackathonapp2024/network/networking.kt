@@ -1,9 +1,8 @@
 package com.example.hackathonapp2024.network
 
 import android.util.Log
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hackathonapp2024.data.Adres
 import com.example.hackathonapp2024.data.DataModel
-import com.example.hackathonapp2024.data.Inspection
 import com.example.hackathonapp2024.viewModel.InspectionViewModel
 import com.example.hackathonapp2024.viewModel.RequestInspectionViewModel
 import kotlinx.coroutines.withTimeoutOrNull
@@ -11,6 +10,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
+import mapAdresRequestToJson
 import mapInspectionToJson
 import mapRequestInspectionToEditJson
 import mapRequestInspectionToJson
@@ -29,49 +29,21 @@ suspend fun networking(
     var rcSuccess = false
     var dbSuccess = false
 
-    val jsonData = Json.encodeToString(
-        DataModel(
-            id = "2",
-        )
-    )
-
-    val json3 = """{
-        "id": "2",
-        "values": {
-        "Miasto": "Warszawa",
-        "Ulica": "Krakowska",
-        "Nr_budynku": "123",
-        "Nr_lokalu": "4A",
-        "Typ_lokalu": "Mieszkalny",
-        "Statut_kontrolowanego": "Właściciel",
-        "Imie": "Jan",
-        "Nazwisko": "Kowalski",
-        "Obiekt_kontroli": "Dom jednorodzinny",
-        "Typ_paliwa": "Drewno",
-        "Pobrano_probki": "Tak",
-        "Wynik": "Negatywny",
-        "Nr_probki": "56789",
-        "Wilg_drewna": "12.5",
-        "Liczba_kontroli": 3,
-        "Po_Art191": 1,
-        "Po_Art334": 0,
-        "Man_Art191_liczba": 2,
-        "Man_Art191_kwota": 1500.50,
-        "Man_Art334_liczba": 0,
-        "Man_Art334_kwota": 0.00,
-        "Czyn_Art191": 1,
-        "Czyn_Art334": 0
-    }
-    }"""
-
     var tempJson : String = Json.encodeToString(mapInspectionToJson(inspectionsViewModel.inspection.value))
     Log.d("JSON", tempJson)
 
     var temp2Json : String = Json.encodeToString(mapRequestInspectionToJson(requestInspectionViewModel.inspection.value))
     Log.d("JSON", temp2Json)
-    requestInspectionViewModel.inspection.value.powierzchnia = 213.7f
+
     var temp3Json : String = Json.encodeToString(mapRequestInspectionToEditJson(requestInspection = requestInspectionViewModel.inspection.value))
     Log.d("JSON", temp3Json)
+    //var adres = Adres("Warszawka", "Knagi", "69", 1)
+    var temp4json = """{"id": "1"}"""
+    var dataModel = DataModel(
+        id = "1"
+    )
+    var temp4json2 : String = Json.encodeToString(dataModel)
+    Log.d("JSON", temp2Json)
 
 
     val url = URL("https://hackathon.propages.pl")
@@ -83,7 +55,7 @@ suspend fun networking(
             doOutput = true
             val wr = OutputStreamWriter(outputStream)
 
-            wr.write(temp3Json)
+            wr.write(temp4json2)
             wr.flush()
 
             println("URL : $url")
