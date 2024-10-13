@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -28,6 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -55,6 +60,11 @@ fun InspectionResultScreen(
     var manArt334Kwota by remember { mutableFloatStateOf(inspection.manArt334Kwota) }
 
     val scrollState = rememberScrollState()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    fun hideKeyboard(){
+        keyboardController?.hide()
+    }
 
     BoxWithConstraints {
         if (maxWidth < 600.dp) {
@@ -137,7 +147,14 @@ fun InspectionResultScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = wynik,
-                            onValueChange = { wynik = it }
+                            onValueChange = { wynik = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -176,7 +193,14 @@ fun InspectionResultScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = nrProbki.toString(),
-                            onValueChange = { nrProbki = it.toIntOrNull() ?: 0 }
+                            onValueChange = { nrProbki = it.toIntOrNull() ?: 0 },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -215,7 +239,14 @@ fun InspectionResultScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = wilgDrewna,
-                            onValueChange = { wilgDrewna = it }
+                            onValueChange = { wilgDrewna = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -477,7 +508,14 @@ fun InspectionResultScreen(
                                     .fillMaxWidth(),
                                 value = manArt191Liczba.toString(),
                                 onValueChange = { manArt191Liczba = it.toIntOrNull() ?: 0 },
-                                enabled = sankcjeKarneEnabled
+                                enabled = sankcjeKarneEnabled,
+                                singleLine = true,
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                                keyboardActions = KeyboardActions(
+                                    onDone = {
+                                        hideKeyboard()
+                                    }
+                                )
                             )
                         }
                     }
@@ -517,7 +555,14 @@ fun InspectionResultScreen(
                                 .fillMaxWidth(),
                             value = manArt191Kwota.toString(),
                             onValueChange = { manArt191Kwota = it.toFloatOrNull() ?: 0f },
-                            enabled = sankcjeKarneEnabled
+                            enabled = sankcjeKarneEnabled,
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -557,7 +602,14 @@ fun InspectionResultScreen(
                             .fillMaxWidth(),
                             value = manArt334Liczba.toString(),
                             onValueChange = { manArt334Liczba = it.toIntOrNull() ?: 0 },
-                            enabled = sankcjeKarneEnabled
+                            enabled = sankcjeKarneEnabled,
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -597,7 +649,14 @@ fun InspectionResultScreen(
                                 .fillMaxWidth(),
                             value = manArt334Kwota.toString(),
                             onValueChange = { manArt334Kwota = it.toFloatOrNull() ?: 0f },
-                            enabled = sankcjeKarneEnabled
+                            enabled = sankcjeKarneEnabled,
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -632,9 +691,6 @@ fun InspectionResultScreen(
                             czynArt191 = czynArt191,
                             czynArt334 = czynArt334
                         )
-                        println(inspectionViewModel.inspection.value.poArt334)
-                        println(inspectionViewModel.inspection.value.czynArt334)
-                        println(inspectionViewModel.inspection.value.manArt334Liczba)
                     }) {
                         Text(text = "Dalej")
                     }
