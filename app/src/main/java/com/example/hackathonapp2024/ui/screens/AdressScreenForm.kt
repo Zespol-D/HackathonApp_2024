@@ -462,7 +462,7 @@ fun AdressScreenForm(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 18.dp)
-                        .padding(end = 15.dp),
+                        .padding(end = 25.dp),
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
