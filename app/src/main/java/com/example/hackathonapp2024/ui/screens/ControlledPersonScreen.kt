@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -22,6 +24,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,6 +44,11 @@ fun ControlledPersonScreen(
     var statutKontrolowanego by remember { mutableStateOf(inspection.statutKontrolowanego ?: "") }
     var imie by remember { mutableStateOf(inspection.imie ?: "") }
     var nazwisko by remember { mutableStateOf(inspection.nazwisko ?: "") }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    fun hideKeyboard(){
+        keyboardController?.hide()
+    }
 
     BoxWithConstraints {
         if (maxWidth < 600.dp) {
@@ -90,7 +100,14 @@ fun ControlledPersonScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = statutKontrolowanego,
-                            onValueChange = { statutKontrolowanego = it }
+                            onValueChange = { statutKontrolowanego = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -164,7 +181,14 @@ fun ControlledPersonScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = nazwisko,
-                            onValueChange = { nazwisko = it }
+                            onValueChange = { nazwisko = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -240,7 +264,14 @@ fun ControlledPersonScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = statutKontrolowanego,
-                            onValueChange = { statutKontrolowanego = it }
+                            onValueChange = { statutKontrolowanego = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
@@ -277,7 +308,14 @@ fun ControlledPersonScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = imie,
-                            onValueChange = { imie = it }
+                            onValueChange = { imie = it },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    hideKeyboard()
+                                }
+                            )
                         )
                     }
                 }
